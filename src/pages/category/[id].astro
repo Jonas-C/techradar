@@ -1,0 +1,93 @@
+---
+import type { GetStaticPaths, GetStaticPathsItem } from "astro";
+import categories from "../../categories";
+import CategorySelector from "../../components/CategorySelector.astro";
+import ExplanationQuadrants from "../../components/ExplanationQuadrants.astro";
+import Quadrant from "../../components/Quadrant.astro";
+import Layout from "../../layouts/Layout.astro";
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return Object.keys(categories).map<GetStaticPathsItem>((cat) => {
+    return { params: { id: cat } };
+  });
+};
+const { id } = Astro.params;
+const current = categories[id as string];
+const allCategories = Object.values(categories);
+const allItemsForCurrent = current.groups.flatMap((group) => group.items);
+---
+
+<Layout title={current.name}>
+  <main>
+    <div>
+      <h2>Filter by Work Area</h2>
+      <CategorySelector
+        categories={allCategories}
+        activeId={typeof id === "string" ? id : undefined}
+      />
+    </div>
+    <div class="separator"></div>
+    <Quadrant
+      name="Priorities"
+      description="Technologies that we want to prioritize and use more"
+      items={allItemsForCurrent.filter((item) => !!item.priority)}
+    />
+    <div class="quadrantGrouping">
+      <Quadrant
+        name="Keep"
+        description="Technologies that we want to prioritize and use more"
+        items={allItemsForCurrent.filter((item) => item.status === "KEEP")}
+      />
+      <Quadrant
+        name="Adopt"
+        description="Technologies that we want to prioritize and use more"
+        items={allItemsForCurrent.filter((item) => item.status === "ADOPT")}
+      />
+      <Quadrant
+        name="Trial"
+        description="Technologies that we want to prioritize and use more"
+        items={allItemsForCurrent.filter((item) => item.status === "TRIAL")}
+      />
+      <Quadrant
+        name="Test"
+        description="Technologies that we want to prioritize and use more"
+        items={allItemsForCurrent.filter((item) => item.status === "TEST")}
+      />
+    </div>
+    <Quadrant
+      name="Hold-Phase Out"
+      description="Technologies that we want to prioritize and use more"
+      items={allItemsForCurrent.filter((item) => item.status === "HOLD")}
+    />
+    <div>
+      <ExplanationQuadrants />
+    </div>
+  </main>
+</Layout>
+<style>
+  main {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 10%;
+  }
+  @media (min-width: 768px) {
+    .quadrantGrouping {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 768px) {
+    .quadrantGrouping {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      max-height: 180px;
+      overflow: scroll;
+    }
+  }
+  .separator {
+    width: 100%;
+    border-bottom: 1px solid var(--color-purple);
+  }
+</style>

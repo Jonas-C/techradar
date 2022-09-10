@@ -1,0 +1,39 @@
+---
+import Layout from "../layouts/Layout.astro";
+import CategorySelector from "../components/CategorySelector.astro";
+import categoriesObj from "../categories";
+const categories = Object.values(categoriesObj);
+---
+
+<Layout title="Welcome to Astro.">
+  <main>
+    <p id="introduction">
+      Velkommen til Knowit Techradar. Punktene på radaren er resultatet av
+      interne workshops og flere runder med teamene våre. Dette representerer
+      vår kompetanse, kunnskap og det vi tror er essensielt i nær fremtid.
+    </p>
+    <section class="category-section">
+      <CategorySelector categories={categories} />
+    </section>
+  </main>
+</Layout>
+
+<style>
+  :root {
+    --astro-gradient: linear-gradient(0deg, #4f39fa, #da62c4);
+  }
+
+  .category-section {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    background-color: var(--color-fg);
+    padding: 70px 0;
+  }
+
+  #introduction {
+    text-align: center;
+    padding: 0 100px;
+    font-size: 32px;
+  }
+</style>

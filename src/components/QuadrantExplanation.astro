@@ -1,0 +1,18 @@
+---
+export interface Props {
+  title: string;
+  content: string;
+}
+const { title, content } = Astro.props;
+---
+
+<div>
+  <h3 class="heading">{title}</h3>
+  <p>{content}</p>
+</div>
+<style>
+  .heading {
+    color: var(--color-green1);
+    margin: 0;
+  }
+</style>

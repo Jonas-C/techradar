@@ -1,0 +1,64 @@
+---
+import type { Item } from "../categories";
+
+export interface Props {
+  name: string;
+  description: string;
+  items: Item[];
+}
+const { name, items, description } = Astro.props;
+---
+
+<div class="wrapper">
+  <div class="headingWrapper">
+    <div class="titleWrapper">
+      <h2>{name}</h2>
+    </div>
+    <p class="description">{description}</p>
+  </div>
+  <ul>{items.map((item) => <li>{item.name}</li>)}</ul>
+</div>
+<style>
+  .wrapper {
+    background-color: var(--color-fg);
+    border: 1px solid var(--color-green1);
+    display: flex;
+    flex-direction: column;
+  }
+  .headingWrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .titleWrapper {
+    border-right: 1px solid var(--color-green1);
+    border-bottom: 1px solid var(--color-green1);
+    padding: 5px;
+  }
+  .titleWrapper > h2 {
+    color: var(--color-green1);
+    padding: 0;
+    margin: 0;
+  }
+  @media (max-width: 768px) {
+    .description {
+      display: none;
+    }
+  }
+  .description {
+    padding: 0;
+    margin: 0;
+  }
+  ul {
+    padding: 0 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  li {
+    padding: 5px;
+    display: block;
+    background-color: rgba(75, 100, 85, 0.2);
+    list-style: none;
+  }
+</style>
